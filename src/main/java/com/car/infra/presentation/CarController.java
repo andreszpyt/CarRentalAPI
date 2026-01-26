@@ -1,0 +1,32 @@
+package com.car.infra.presentation;
+
+import com.car.core.entities.Car;
+import com.car.core.usecases.car.RegisterCarUseCase;
+import com.car.infra.dtos.request.CarRequest;
+import com.car.infra.dtos.response.CarResponse;
+import com.car.infra.mapper.CarMapper;
+import com.car.infra.persistence.CarEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/car")
+public class CarController {
+
+    private final CarMapper carMapper;
+    private final RegisterCarUseCase registerCarUseCase;
+
+    public CarController(CarMapper carMapper, RegisterCarUseCase registerCarUseCase) {
+        this.carMapper = carMapper;
+        this.registerCarUseCase = registerCarUseCase;
+    }
+
+    @PostMapping
+    public CarResponse createCar(@RequestBody CarRequest carRequest) {
+        Car car = carMapper.toDomain(carRequest);
+        return carMapper.toResponse(registerCarUseCase.execute(car));
+    }
+}

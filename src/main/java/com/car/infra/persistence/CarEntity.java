@@ -1,18 +1,24 @@
 package com.car.infra.persistence;
 
 import com.car.core.entities.enums.Category;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Table(name = "Cars")
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String brand;
     private String model;
+    @Enumerated(EnumType.STRING)
     private Category category;
     private String licensePlate;
     private Integer year;
