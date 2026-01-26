@@ -5,8 +5,6 @@ import com.car.core.usecases.car.RegisterCarUseCase;
 import com.car.infra.dtos.request.CarRequest;
 import com.car.infra.dtos.response.CarResponse;
 import com.car.infra.mapper.CarMapper;
-import com.car.infra.persistence.CarEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
