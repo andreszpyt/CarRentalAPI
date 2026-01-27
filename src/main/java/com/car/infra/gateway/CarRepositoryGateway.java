@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,5 +30,10 @@ public class CarRepositoryGateway implements CarGateway {
         return cars.stream()
                 .map(mapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public Optional<Car> findCarByPlate(String plate) {
+        return Optional.of(mapper.toResponse(carRepository.findByLicensePlate(plate)));
     }
 }
