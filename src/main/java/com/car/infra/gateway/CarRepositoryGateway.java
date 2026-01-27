@@ -15,7 +15,8 @@ public class CarRepositoryGateway implements CarGateway {
     private final CarRepository carRepository;
     private final CarEntityMapper mapper;
 
-    public Car save(Car car) {
+    @Override
+    public Car registerCar(Car car) {
         CarEntity entity = carRepository.save(mapper.toDomain(car));
         return mapper.toResponse(entity);
     }

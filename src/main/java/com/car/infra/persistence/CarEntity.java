@@ -21,6 +21,7 @@ public class CarEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
     private String licensePlate;
+    @Column(name = "year_car")
     private Integer year;
     private String color;
     private BigDecimal dailyRate;

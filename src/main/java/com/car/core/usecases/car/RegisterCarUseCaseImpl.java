@@ -13,6 +13,6 @@ public class RegisterCarUseCaseImpl implements RegisterCarUseCase {
 
     @Override
     public Car execute(Car car) {
-        return null;
+        return carGateway.registerCar(car);
     }
 }

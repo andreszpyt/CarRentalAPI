@@ -5,6 +5,8 @@ import com.car.core.usecases.car.RegisterCarUseCase;
 import com.car.infra.dtos.request.CarRequest;
 import com.car.infra.dtos.response.CarResponse;
 import com.car.infra.mapper.CarMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +25,10 @@ public class CarController {
     }
 
     @PostMapping
-    public CarResponse createCar(@RequestBody CarRequest carRequest) {
+    public ResponseEntity<CarResponse> createCar(@RequestBody CarRequest carRequest) {
         Car car = carMapper.toDomain(carRequest);
-        return carMapper.toResponse(registerCarUseCase.execute(car));
+        return ResponseEntity.status(HttpStatus.CREATED).body(carMapper.toResponse(registerCarUseCase.execute(car)));
     }
+
+
 }
