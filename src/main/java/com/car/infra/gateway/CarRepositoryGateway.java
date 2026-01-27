@@ -8,6 +8,8 @@ import com.car.infra.persistence.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class CarRepositoryGateway implements CarGateway {
@@ -19,5 +21,13 @@ public class CarRepositoryGateway implements CarGateway {
     public Car registerCar(Car car) {
         CarEntity entity = carRepository.save(mapper.toDomain(car));
         return mapper.toResponse(entity);
+    }
+
+    @Override
+    public List<Car> findCars() {
+        List<CarEntity> cars = carRepository.findAll();
+        return cars.stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 }
