@@ -4,6 +4,7 @@ import com.car.core.entities.Car;
 import com.car.core.usecases.car.FindByPlateUseCase;
 import com.car.core.usecases.car.FindCarsUseCase;
 import com.car.core.usecases.car.RegisterCarUseCase;
+import com.car.core.usecases.car.UpdateCarUseCase;
 import com.car.infra.dtos.request.CarRequest;
 import com.car.infra.dtos.response.CarResponse;
 import com.car.infra.mapper.CarMapper;
@@ -21,12 +22,14 @@ public class CarController {
     private final RegisterCarUseCase registerCarUseCase;
     private final FindCarsUseCase  findCarsUseCase;
     private final FindByPlateUseCase findByPlateUseCase;
+    private final UpdateCarUseCase updateCarUseCase;
 
-    public CarController(CarMapper carMapper, RegisterCarUseCase registerCarUseCase, FindCarsUseCase findCarsUseCase, FindByPlateUseCase findByPlateUseCase) {
+    public CarController(CarMapper carMapper, RegisterCarUseCase registerCarUseCase, FindCarsUseCase findCarsUseCase, FindByPlateUseCase findByPlateUseCase, UpdateCarUseCase updateCarUseCase) {
         this.carMapper = carMapper;
         this.registerCarUseCase = registerCarUseCase;
         this.findCarsUseCase = findCarsUseCase;
         this.findByPlateUseCase = findByPlateUseCase;
+        this.updateCarUseCase = updateCarUseCase;
     }
 
     @PostMapping
@@ -48,5 +51,11 @@ public class CarController {
         return findByPlateUseCase.execute(plate)
                 .map(car -> ResponseEntity.ok(carMapper.toResponse(car)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarRequest carRequest) {
+        Car response =  updateCarUseCase.execute(id, carMapper.toDomain(carRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(carMapper.toResponse(response));
     }
 }

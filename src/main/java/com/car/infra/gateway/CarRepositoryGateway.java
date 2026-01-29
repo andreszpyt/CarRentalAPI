@@ -38,4 +38,11 @@ public class CarRepositoryGateway implements CarGateway {
         if (entity == null) return Optional.empty();
         return Optional.of(mapper.toResponse(entity));
     }
+
+    @Override
+    public Car updateCar(Long id, Car car) {
+        CarEntity entity = mapper.toDomain(car);
+        entity.setId(id);
+        return mapper.toResponse(carRepository.save(entity));
+    }
 }

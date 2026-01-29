@@ -10,4 +10,5 @@ public interface CarGateway {
     Car registerCar(Car car);
     List<Car> findCars();
     Optional<Car> findCarByPlate(String plate);
+    Car updateCar(Long id, Car car);
 }
