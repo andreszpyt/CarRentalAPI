@@ -1,5 +1,6 @@
 package com.car.infra.persistence;
 
+import com.car.core.entities.enums.CarClass;
 import com.car.core.entities.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +21,8 @@ public class CarEntity {
     private String model;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @Enumerated(EnumType.STRING)
+    private CarClass carClass;
     private String licensePlate;
     @Column(name = "year_car")
     private Integer year;

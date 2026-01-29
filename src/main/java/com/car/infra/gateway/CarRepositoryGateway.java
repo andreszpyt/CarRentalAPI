@@ -34,6 +34,8 @@ public class CarRepositoryGateway implements CarGateway {
 
     @Override
     public Optional<Car> findCarByPlate(String plate) {
-        return Optional.of(mapper.toResponse(carRepository.findByLicensePlate(plate)));
+        CarEntity entity = carRepository.findByLicensePlate(plate);
+        if (entity == null) return Optional.empty();
+        return Optional.of(mapper.toResponse(entity));
     }
 }

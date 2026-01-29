@@ -4,6 +4,6 @@ public enum Category {
     SEDAN,
     SUV,
     HATCH,
-    LUXURY,
-    SPORT
+    PICKUP,
+    COUPE
 }
