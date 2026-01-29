@@ -1,4 +1,4 @@
-package com.car.core.usecases.car;
+package com.car.core.usecases.car.queries;
 
 import com.car.core.entities.Car;
 import com.car.core.gateway.CarGateway;

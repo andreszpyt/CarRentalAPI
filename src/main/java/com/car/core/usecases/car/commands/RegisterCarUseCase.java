@@ -1,4 +1,4 @@
-package com.car.core.usecases.car;
+package com.car.core.usecases.car.commands;
 
 import com.car.core.entities.Car;
 

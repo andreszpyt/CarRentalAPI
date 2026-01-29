@@ -1,7 +1,12 @@
 package com.car.infra.config;
 
 import com.car.core.gateway.CarGateway;
-import com.car.core.usecases.car.*;
+import com.car.core.usecases.car.commands.RegisterCarUseCaseImpl;
+import com.car.core.usecases.car.commands.UpdateCarUseCase;
+import com.car.core.usecases.car.commands.UpdateCarUseCaseImpl;
+import com.car.core.usecases.car.queries.FindByPlateUseCase;
+import com.car.core.usecases.car.queries.FindByPlateUseCaseImpl;
+import com.car.core.usecases.car.queries.FindCarsUseCaseImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

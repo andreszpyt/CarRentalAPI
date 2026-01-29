@@ -1,10 +1,10 @@
 package com.car.infra.presentation;
 
 import com.car.core.entities.Car;
-import com.car.core.usecases.car.FindByPlateUseCase;
-import com.car.core.usecases.car.FindCarsUseCase;
-import com.car.core.usecases.car.RegisterCarUseCase;
-import com.car.core.usecases.car.UpdateCarUseCase;
+import com.car.core.usecases.car.queries.FindByPlateUseCase;
+import com.car.core.usecases.car.queries.FindCarsUseCase;
+import com.car.core.usecases.car.commands.RegisterCarUseCase;
+import com.car.core.usecases.car.commands.UpdateCarUseCase;
 import com.car.infra.dtos.request.CarRequest;
 import com.car.infra.dtos.response.CarResponse;
 import com.car.infra.mapper.CarMapper;
