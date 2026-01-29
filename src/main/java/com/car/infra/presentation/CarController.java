@@ -1,6 +1,8 @@
 package com.car.infra.presentation;
 
 import com.car.core.entities.Car;
+import com.car.core.usecases.car.commands.DeleteCarUseCase;
+import com.car.core.usecases.car.queries.FindByIdUseCase;
 import com.car.core.usecases.car.queries.FindByPlateUseCase;
 import com.car.core.usecases.car.queries.FindCarsUseCase;
 import com.car.core.usecases.car.commands.RegisterCarUseCase;
@@ -23,13 +25,17 @@ public class CarController {
     private final FindCarsUseCase  findCarsUseCase;
     private final FindByPlateUseCase findByPlateUseCase;
     private final UpdateCarUseCase updateCarUseCase;
+    private final FindByIdUseCase findByIdUseCase;
+    private final DeleteCarUseCase deleteCarUseCase;
 
-    public CarController(CarMapper carMapper, RegisterCarUseCase registerCarUseCase, FindCarsUseCase findCarsUseCase, FindByPlateUseCase findByPlateUseCase, UpdateCarUseCase updateCarUseCase) {
+    public CarController(CarMapper carMapper, RegisterCarUseCase registerCarUseCase, FindCarsUseCase findCarsUseCase, FindByPlateUseCase findByPlateUseCase, UpdateCarUseCase updateCarUseCase, FindByIdUseCase findByIdUseCase, DeleteCarUseCase deleteCarUseCase) {
         this.carMapper = carMapper;
         this.registerCarUseCase = registerCarUseCase;
-        this.findCarsUseCase = findCarsUseCase;
         this.findByPlateUseCase = findByPlateUseCase;
         this.updateCarUseCase = updateCarUseCase;
+        this.findByIdUseCase = findByIdUseCase;
+        this.findCarsUseCase = findCarsUseCase;
+        this.deleteCarUseCase = deleteCarUseCase;
     }
 
     @PostMapping
@@ -46,7 +52,7 @@ public class CarController {
                 .toList());
     }
 
-    @GetMapping("{plate}")
+    @GetMapping("/plate/{plate}")
     public ResponseEntity<CarResponse> findCarByPlate(@PathVariable String plate) {
         return findByPlateUseCase.execute(plate)
                 .map(car -> ResponseEntity.ok(carMapper.toResponse(car)))
@@ -57,5 +63,17 @@ public class CarController {
     public ResponseEntity<CarResponse> updateCar(@PathVariable Long id, @RequestBody CarRequest carRequest) {
         Car response =  updateCarUseCase.execute(id, carMapper.toDomain(carRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(carMapper.toResponse(response));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<CarResponse> findCarById(@PathVariable Long id) {
+        Car car = findByIdUseCase.execute(id);
+        return ResponseEntity.ok(carMapper.toResponse(car));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
+        deleteCarUseCase.execute(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,12 +1,8 @@
 package com.car.infra.config;
 
 import com.car.core.gateway.CarGateway;
-import com.car.core.usecases.car.commands.RegisterCarUseCaseImpl;
-import com.car.core.usecases.car.commands.UpdateCarUseCase;
-import com.car.core.usecases.car.commands.UpdateCarUseCaseImpl;
-import com.car.core.usecases.car.queries.FindByPlateUseCase;
-import com.car.core.usecases.car.queries.FindByPlateUseCaseImpl;
-import com.car.core.usecases.car.queries.FindCarsUseCaseImpl;
+import com.car.core.usecases.car.commands.*;
+import com.car.core.usecases.car.queries.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,5 +27,15 @@ public class BeanConfiguration {
     @Bean
     public UpdateCarUseCase updateCarUseCase(CarGateway carGateway){
         return new UpdateCarUseCaseImpl(carGateway);
+    }
+
+    @Bean
+    public FindByIdUseCase findByIdUseCase(CarGateway carGateway){
+        return new FindByIdUseCaseImpl(carGateway);
+    }
+
+    @Bean
+    public DeleteCarUseCase deleteCarUseCase(CarGateway carGateway){
+        return new DeleteCarUseCaseImpl(carGateway);
     }
 }

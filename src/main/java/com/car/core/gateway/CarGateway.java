@@ -11,4 +11,6 @@ public interface CarGateway {
     List<Car> findCars();
     Optional<Car> findCarByPlate(String plate);
     Car updateCar(Long id, Car car);
+    void deleteCar(Long id);
+    Optional<Car> findById(Long id);
 }

@@ -45,4 +45,15 @@ public class CarRepositoryGateway implements CarGateway {
         entity.setId(id);
         return mapper.toResponse(carRepository.save(entity));
     }
+
+    @Override
+    public Optional<Car> findById(Long id) {
+        Optional<CarEntity> entity = carRepository.findById(id);
+        return entity.map(mapper::toResponse);
+    }
+
+    @Override
+    public void deleteCar(Long id) {
+        carRepository.deleteById(id);
+    }
 }
