@@ -1,7 +1,9 @@
 package com.car.infra.security;
 
 import com.car.core.security.PasswordEncryptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 public class BCryptPasswordEncryptor implements PasswordEncryptor {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

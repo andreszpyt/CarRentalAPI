@@ -1,7 +1,7 @@
 package com.car.core.usecases.car.commands;
 
 import com.car.core.gateway.CarGateway;
-import com.car.core.usecases.car.exceptions.CarNotFoundException;
+import com.car.core.usecases.exception.NotFoundException;
 
 public class DeleteCarUseCaseImpl implements DeleteCarUseCase{
     CarGateway carGateway;
@@ -13,7 +13,7 @@ public class DeleteCarUseCaseImpl implements DeleteCarUseCase{
     @Override
     public void execute(Long id) {
         if (carGateway.findById(id).isEmpty()) {
-            throw new CarNotFoundException(id);
+            throw new NotFoundException("Not found car with id: " + id);
         }
         carGateway.deleteCar(id);
     }

@@ -2,7 +2,7 @@ package com.car.core.usecases.car.commands;
 
 import com.car.core.entities.Car;
 import com.car.core.gateway.CarGateway;
-import com.car.core.usecases.car.exceptions.PlateAlreadyExistsException;
+import com.car.core.usecases.exception.ConflictException;
 
 public class RegisterCarUseCaseImpl implements RegisterCarUseCase {
 
@@ -15,7 +15,7 @@ public class RegisterCarUseCaseImpl implements RegisterCarUseCase {
     @Override
     public Car execute(Car car) {
         if(carGateway.findCarByPlate(car.licensePlate()).isPresent()) {
-            throw new PlateAlreadyExistsException(car.licensePlate());
+            throw new ConflictException("Plate alredy exists: " + car.licensePlate());
         }
         return carGateway.registerCar(car);
     }

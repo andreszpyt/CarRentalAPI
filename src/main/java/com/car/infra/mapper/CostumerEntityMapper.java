@@ -25,15 +25,16 @@ public class CostumerEntityMapper {
     }
 
     public Costumer toCostumer(Optional<CostumerEntity> costumerEntity) {
+
         return new Costumer(
-                costumerEntity.getId(),
-                costumerEntity.getName(),
-                new Email(costumerEntity.getEmail()),
-                costumerEntity.getPassword(),
-                new Cpf(costumerEntity.getCpf()),
-                new PhoneNumber(costumerEntity.getPhoneNumber()),
-                costumerEntity.getDriverLicense(),
-                costumerEntity.getBirthDate()
+                costumerEntity.get().getId(),
+                costumerEntity.get().getName(),
+                new Email(costumerEntity.get().getEmail()),
+                costumerEntity.get().getPassword(),
+                new Cpf(costumerEntity.get().getCpf()),
+                new PhoneNumber(costumerEntity.get().getPhoneNumber()),
+                costumerEntity.get().getDriverLicense(),
+                costumerEntity.get().getBirthDate()
         );
     }
 }
