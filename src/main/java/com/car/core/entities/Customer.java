@@ -6,7 +6,7 @@ import com.car.core.entities.vo.PhoneNumber;
 
 import java.time.LocalDate;
 
-public record Costumer(
+public record Customer(
         Long id,
         String name,
         Email email,

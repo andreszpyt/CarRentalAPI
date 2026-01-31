@@ -1,18 +1,18 @@
 package com.car.infra.mapper;
 
-import com.car.core.entities.Costumer;
+import com.car.core.entities.Customer;
 import com.car.core.entities.vo.Cpf;
 import com.car.core.entities.vo.Email;
 import com.car.core.entities.vo.PhoneNumber;
-import com.car.infra.persistence.CostumerEntity;
+import com.car.infra.persistence.CustomerEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class CostumerEntityMapper {
-    public CostumerEntity toEntity(Costumer costumer) {
-        return new CostumerEntity(
+public class CustomerEntityMapper {
+    public CustomerEntity toEntity(Customer costumer) {
+        return new CustomerEntity(
                 costumer.id(),
                 costumer.name(),
                 costumer.email().address(),
@@ -24,9 +24,9 @@ public class CostumerEntityMapper {
         );
     }
 
-    public Costumer toCostumer(Optional<CostumerEntity> costumerEntity) {
+    public Customer toCostumer(Optional<CustomerEntity> costumerEntity) {
 
-        return new Costumer(
+        return new Customer(
                 costumerEntity.get().getId(),
                 costumerEntity.get().getName(),
                 new Email(costumerEntity.get().getEmail()),

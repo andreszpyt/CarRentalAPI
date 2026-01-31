@@ -1,31 +1,31 @@
-package com.car.core.usecases.costumer.commands;
+package com.car.core.usecases.customer.commands;
 
-import com.car.core.entities.Costumer;
-import com.car.core.gateway.CostumerGateway;
+import com.car.core.entities.Customer;
+import com.car.core.gateway.CustomerGateway;
 import com.car.core.security.PasswordEncryptor;
 import com.car.core.usecases.exception.ConflictException;
 
-public class RegisterCostumerUseCaseImpl implements RegisterCostumerUseCase {
-    private final CostumerGateway costumerGateway;
+public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
+    private final CustomerGateway customerGateway;
     private final PasswordEncryptor passwordEncryptor;
 
-    public RegisterCostumerUseCaseImpl(CostumerGateway costumerGateway, PasswordEncryptor passwordEncryptor) {
-        this.costumerGateway = costumerGateway;
+    public RegisterCustomerUseCaseImpl(CustomerGateway customerGateway, PasswordEncryptor passwordEncryptor) {
+        this.customerGateway = customerGateway;
         this.passwordEncryptor = passwordEncryptor;
     }
 
     @Override
-    public Costumer execute(Costumer costumer) {
+    public Customer execute(Customer costumer) {
 
-        costumerGateway.findByCpf(costumer.cpf().value())
+        customerGateway.findByCpf(costumer.cpf().value())
                 .ifPresent(costumerEntity -> {throw new ConflictException("CPF already exists");});
 
-        costumerGateway.findByEmail(costumer.email().address())
+        customerGateway.findByEmail(costumer.email().address())
                 .ifPresent(costumerEntity -> {throw new ConflictException("Email already exists");});
 
         String hashedPassword = passwordEncryptor.encrypt(costumer.password());
 
-        Costumer secureCostumer = new Costumer(
+        Customer secureCostumer = new Customer(
                 null,
                 costumer.name(),
                 costumer.email(),
@@ -37,6 +37,6 @@ public class RegisterCostumerUseCaseImpl implements RegisterCostumerUseCase {
         );
 
 
-        return costumerGateway.registerCostumer(secureCostumer);
+        return customerGateway.registerCostumer(secureCostumer);
     }
 }
