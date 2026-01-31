@@ -56,4 +56,11 @@ public class CarRepositoryGateway implements CarGateway {
     public void deleteCar(Long id) {
         carRepository.deleteById(id);
     }
+
+    @Override
+    public void updateAvailability(Long id, Boolean availability) {
+        CarEntity entity = carRepository.findById(id).get();
+        entity.setAvailable(availability);
+        carRepository.save(entity);
+    }
 }
