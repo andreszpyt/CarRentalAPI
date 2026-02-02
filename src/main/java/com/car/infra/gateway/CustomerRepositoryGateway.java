@@ -33,4 +33,9 @@ public class CustomerRepositoryGateway implements CustomerGateway {
         repository.save(mapper.toEntity(costumer));
         return costumer;
     }
+
+    @Override
+    public Optional<Customer> findById(Long id) {
+        return Optional.of(mapper.toCostumer(repository.findById(id)));
+    }
 }

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public record Rental(
         Long id,
         Long carId,
-        Long costumerId,
+        Long customerId,
         LocalDateTime pickupDate,
         LocalDateTime expectedReturnDate,
         LocalDateTime actualReturnDate,

@@ -9,4 +9,5 @@ public interface CustomerGateway {
     Optional<Customer> findByEmail(String email);
     Optional<Customer> findByCpf(String cpf);
     Customer registerCostumer(Customer costumer);
+    Optional<Customer> findById(Long id);
 }

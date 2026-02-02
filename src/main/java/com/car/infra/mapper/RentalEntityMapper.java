@@ -1,28 +1,29 @@
 package com.car.infra.mapper;
 
 import com.car.core.entities.Rental;
-import com.car.infra.dtos.request.RentalRequest;
-import com.car.infra.dtos.response.RentalResponse;
+import com.car.infra.persistence.RentalEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RentalEntityMapper {
-    public Rental toRental(RentalRequest request){
+    public Rental toRental(RentalEntity entity){
         return new Rental(
-                null,
-                request.carId(),
-                request.costumerId(),
-                request.pickupDate(),
-                request.expectedReturnDate(),
-                null,
-                null,
-                null
+                entity.getId(),
+                entity.getCarId(),
+                entity.getCustomerId(),
+                entity.getPickupDate(),
+                entity.getExpectedReturnDate(),
+                entity.getActualReturnDate(),
+                entity.getTotalValue(),
+                entity.getStatus()
         );
     }
 
-    public RentalResponse toResponse(Rental rental){
-        return new RentalResponse(
+    public RentalEntity toEntity(Rental rental){
+        return new RentalEntity(
                 rental.id(),
                 rental.carId(),
-                rental.costumerId(),
+                rental.customerId(),
                 rental.pickupDate(),
                 rental.expectedReturnDate(),
                 rental.actualReturnDate(),

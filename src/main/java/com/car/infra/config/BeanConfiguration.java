@@ -2,11 +2,14 @@ package com.car.infra.config;
 
 import com.car.core.gateway.CarGateway;
 import com.car.core.gateway.CustomerGateway;
+import com.car.core.gateway.RentalGateway;
 import com.car.core.security.PasswordEncryptor;
 import com.car.core.usecases.car.commands.*;
 import com.car.core.usecases.car.queries.*;
 import com.car.core.usecases.customer.commands.RegisterCustomerUseCase;
 import com.car.core.usecases.customer.commands.RegisterCustomerUseCaseImpl;
+import com.car.core.usecases.rental.RentCarUseCase;
+import com.car.core.usecases.rental.RentCarUseCaseImpl;
 import com.car.infra.security.BCryptPasswordEncryptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,5 +56,10 @@ public class BeanConfiguration {
     @Bean
     public RegisterCustomerUseCase registerCustomerUseCase(CustomerGateway customerGateway, PasswordEncryptor passwordEncryptor){
         return new RegisterCustomerUseCaseImpl(customerGateway, passwordEncryptor);
+    }
+
+    @Bean
+    public RentCarUseCase rentCarUseCase(RentalGateway rentalGateway, CarGateway carGateway, CustomerGateway customerGateway){
+        return new RentCarUseCaseImpl(rentalGateway, carGateway, customerGateway);
     }
 }
