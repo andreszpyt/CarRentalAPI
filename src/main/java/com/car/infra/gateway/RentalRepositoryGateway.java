@@ -8,6 +8,8 @@ import com.car.infra.persistence.RentalRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RentalRepositoryGateway implements RentalGateway {
@@ -28,5 +30,15 @@ public class RentalRepositoryGateway implements RentalGateway {
     @Override
     public boolean hasConflictingRental(Long carId, LocalDateTime start, LocalDateTime end) {
         return repository.hasConflictingRental(carId, start, end);
+    }
+
+    @Override
+    public Optional<Rental> findRentalById(Long rentalId) {
+        return repository.findById(rentalId).map(mapper::toRental);
+    }
+
+    @Override
+    public List<Rental> findRentalByCustomer(Long customerId) {
+        return repository.findByCustomerIdOrderByCreatedAtDesc(customerId);
     }
 }

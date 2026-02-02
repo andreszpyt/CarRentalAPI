@@ -20,12 +20,13 @@ public class CustomerRepositoryGateway implements CustomerGateway {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.ofNullable(mapper.toCostumer(repository.findByEmail(email)));
+        return repository.findByEmail(email)
+                .map(mapper::toCustomer);
     }
 
     @Override
     public Optional<Customer> findByCpf(String cpf) {
-        return Optional.ofNullable(mapper.toCostumer(repository.findByCpf(cpf)));
+        return repository.findByCpf(cpf).map(mapper::toCustomer);
     }
 
     @Override
@@ -36,6 +37,6 @@ public class CustomerRepositoryGateway implements CustomerGateway {
 
     @Override
     public Optional<Customer> findById(Long id) {
-        return Optional.of(mapper.toCostumer(repository.findById(id)));
+        return  repository.findById(id).map(mapper::toCustomer);
     }
 }

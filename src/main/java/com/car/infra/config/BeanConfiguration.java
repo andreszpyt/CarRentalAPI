@@ -8,8 +8,14 @@ import com.car.core.usecases.car.commands.*;
 import com.car.core.usecases.car.queries.*;
 import com.car.core.usecases.customer.commands.RegisterCustomerUseCase;
 import com.car.core.usecases.customer.commands.RegisterCustomerUseCaseImpl;
-import com.car.core.usecases.rental.RentCarUseCase;
-import com.car.core.usecases.rental.RentCarUseCaseImpl;
+import com.car.core.usecases.rental.commands.RentCarUseCase;
+import com.car.core.usecases.rental.commands.RentCarUseCaseImpl;
+import com.car.core.usecases.rental.commands.ReturnRentUseCase;
+import com.car.core.usecases.rental.commands.ReturnRentUseCaseImpl;
+import com.car.core.usecases.rental.queries.FindRentByCustomerUseCase;
+import com.car.core.usecases.rental.queries.FindRentByCustomerUseCaseImpl;
+import com.car.core.usecases.rental.queries.FindRentByIdUseCase;
+import com.car.core.usecases.rental.queries.FindRentByIdUseCaseImpl;
 import com.car.infra.security.BCryptPasswordEncryptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,5 +67,20 @@ public class BeanConfiguration {
     @Bean
     public RentCarUseCase rentCarUseCase(RentalGateway rentalGateway, CarGateway carGateway, CustomerGateway customerGateway){
         return new RentCarUseCaseImpl(rentalGateway, carGateway, customerGateway);
+    }
+
+    @Bean
+    public FindRentByIdUseCase findRentByIdUseCase(RentalGateway rentalGateway){
+        return new FindRentByIdUseCaseImpl(rentalGateway);
+    }
+
+    @Bean
+    public ReturnRentUseCase returnRentUseCase(RentalGateway rentalGateway){
+        return new ReturnRentUseCaseImpl(rentalGateway);
+    }
+
+    @Bean
+    public FindRentByCustomerUseCase findRentByCustomerUseCase(CustomerGateway customerGateway, RentalGateway rentalGateway){
+        return new FindRentByCustomerUseCaseImpl(rentalGateway, customerGateway);
     }
 }

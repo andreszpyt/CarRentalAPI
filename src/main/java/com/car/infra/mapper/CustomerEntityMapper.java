@@ -7,8 +7,6 @@ import com.car.core.entities.vo.PhoneNumber;
 import com.car.infra.persistence.CustomerEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class CustomerEntityMapper {
     public CustomerEntity toEntity(Customer costumer) {
@@ -24,17 +22,20 @@ public class CustomerEntityMapper {
         );
     }
 
-    public Customer toCostumer(Optional<CustomerEntity> costumerEntity) {
+    public Customer toCustomer(CustomerEntity entity) {
+        if (entity == null) {
+            return null;
+        }
 
         return new Customer(
-                costumerEntity.get().getId(),
-                costumerEntity.get().getName(),
-                new Email(costumerEntity.get().getEmail()),
-                costumerEntity.get().getPassword(),
-                new Cpf(costumerEntity.get().getCpf()),
-                new PhoneNumber(costumerEntity.get().getPhoneNumber()),
-                costumerEntity.get().getDriverLicense(),
-                costumerEntity.get().getBirthDate()
+                entity.getId(),
+                entity.getName(),
+                new Email(entity.getEmail()),
+                entity.getPassword(),
+                new Cpf(entity.getCpf()),
+                new PhoneNumber(entity.getPhoneNumber()),
+                entity.getDriverLicense(),
+                entity.getBirthDate()
         );
     }
 }

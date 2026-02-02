@@ -1,4 +1,4 @@
-package com.car.core.usecases.rental;
+package com.car.core.usecases.rental.commands;
 
 import com.car.core.entities.Rental;
 

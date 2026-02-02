@@ -1,4 +1,4 @@
-package com.car.core.usecases.rental;
+package com.car.core.usecases.rental.commands;
 
 import com.car.core.entities.Car;
 import com.car.core.entities.Rental;
@@ -47,6 +47,7 @@ public class RentCarUseCaseImpl implements RentCarUseCase{
                 car.dailyRate().multiply(java.math.BigDecimal.valueOf(days)),
                 RentalStatus.OPEN
         );
+
 
         return rentalGateway.createRental(newRental);
     }
