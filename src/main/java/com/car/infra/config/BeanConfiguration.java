@@ -83,4 +83,9 @@ public class BeanConfiguration {
     public FindRentByCustomerUseCase findRentByCustomerUseCase(CustomerGateway customerGateway, RentalGateway rentalGateway){
         return new FindRentByCustomerUseCaseImpl(rentalGateway, customerGateway);
     }
+
+    @Bean
+    public FindCarsByCategoryUseCase findCarsByCategoryUseCase(CarGateway carGateway){
+        return new FindCarsByCategoryUseCaseImpl(carGateway);
+    }
 }

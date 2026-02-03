@@ -63,4 +63,10 @@ public class CarRepositoryGateway implements CarGateway {
         entity.setAvailable(availability);
         carRepository.save(entity);
     }
+
+    @Override
+    public List<Car> findCarByCategory(String category) {
+        return carRepository.findByCategory(category)
+                .stream().map(entity -> mapper.toResponse(entity)).toList();
+    }
 }

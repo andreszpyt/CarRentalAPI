@@ -4,6 +4,7 @@ import com.car.core.entities.Car;
 import com.car.core.usecases.car.commands.DeleteCarUseCase;
 import com.car.core.usecases.car.queries.FindByIdUseCase;
 import com.car.core.usecases.car.queries.FindByPlateUseCase;
+import com.car.core.usecases.car.queries.FindCarsByCategoryUseCase;
 import com.car.core.usecases.car.queries.FindCarsUseCase;
 import com.car.core.usecases.car.commands.RegisterCarUseCase;
 import com.car.core.usecases.car.commands.UpdateCarUseCase;
@@ -27,15 +28,17 @@ public class CarController {
     private final UpdateCarUseCase updateCarUseCase;
     private final FindByIdUseCase findByIdUseCase;
     private final DeleteCarUseCase deleteCarUseCase;
+    private final FindCarsByCategoryUseCase findCarsByCategoryUseCase;
 
-    public CarController(CarMapper carMapper, RegisterCarUseCase registerCarUseCase, FindCarsUseCase findCarsUseCase, FindByPlateUseCase findByPlateUseCase, UpdateCarUseCase updateCarUseCase, FindByIdUseCase findByIdUseCase, DeleteCarUseCase deleteCarUseCase) {
+    public CarController(CarMapper carMapper, RegisterCarUseCase registerCarUseCase, FindCarsUseCase findCarsUseCase, FindByPlateUseCase findByPlateUseCase, UpdateCarUseCase updateCarUseCase, FindByIdUseCase findByIdUseCase, DeleteCarUseCase deleteCarUseCase, FindCarsByCategoryUseCase findCarsByCategoryUseCase) {
         this.carMapper = carMapper;
         this.registerCarUseCase = registerCarUseCase;
+        this.findCarsUseCase = findCarsUseCase;
         this.findByPlateUseCase = findByPlateUseCase;
         this.updateCarUseCase = updateCarUseCase;
         this.findByIdUseCase = findByIdUseCase;
-        this.findCarsUseCase = findCarsUseCase;
         this.deleteCarUseCase = deleteCarUseCase;
+        this.findCarsByCategoryUseCase = findCarsByCategoryUseCase;
     }
 
     @PostMapping
@@ -75,5 +78,12 @@ public class CarController {
     public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
         deleteCarUseCase.execute(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<CarResponse>> findCarsByCategory(@PathVariable String category) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(findCarsByCategoryUseCase.execute(category).stream()
+                .map(carMapper::toResponse)
+                .toList());
     }
 }

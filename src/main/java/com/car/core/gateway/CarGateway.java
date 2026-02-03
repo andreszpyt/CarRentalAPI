@@ -14,4 +14,5 @@ public interface CarGateway {
     void deleteCar(Long id);
     Optional<Car> findById(Long id);
     void updateAvailability(Long id, Boolean availability);
+    List<Car> findCarByCategory(String category);
 }
