@@ -18,7 +18,8 @@ public class CustomerEntityMapper {
                 costumer.cpf().value(),
                 costumer.phoneNumber().value(),
                 costumer.driverLicense(),
-                costumer.birthDate()
+                costumer.birthDate(),
+                costumer.role()
         );
     }
 
@@ -35,7 +36,8 @@ public class CustomerEntityMapper {
                 new Cpf(entity.getCpf()),
                 new PhoneNumber(entity.getPhoneNumber()),
                 entity.getDriverLicense(),
-                entity.getBirthDate()
+                entity.getBirthDate(),
+                entity.getRole()
         );
     }
 }

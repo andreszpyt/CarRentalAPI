@@ -27,6 +27,7 @@ public class TokenServiceImpl implements TokenService {
             return JWT.create()
                     .withIssuer("car-rental-api")
                     .withSubject(customer.email().address())
+                    .withClaim("role", customer.role())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {

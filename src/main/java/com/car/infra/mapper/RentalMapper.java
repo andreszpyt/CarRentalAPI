@@ -14,11 +14,11 @@ public class RentalMapper {
         this.customerMapper = customerMapper;
     }
 
-    public Rental toRental(RentalRequest request){
+    public Rental toRental(RentalRequest request, Long customerId){
         return new Rental(
                 null,
                 request.carId(),
-                request.customerId(),
+                customerId,
                 request.pickupDate(),
                 request.expectedReturnDate(),
                 null,

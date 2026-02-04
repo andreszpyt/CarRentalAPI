@@ -7,8 +7,10 @@ import com.car.core.usecases.rental.queries.FindRentByCustomerUseCase;
 import com.car.infra.dtos.request.RentalRequest;
 import com.car.infra.dtos.response.RentalResponse;
 import com.car.infra.mapper.RentalMapper;
+import com.car.infra.persistence.CustomerEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +32,8 @@ public class RentalController {
     }
 
     @PostMapping
-    public RentalResponse createRental(@RequestBody RentalRequest rentalRequest) {
-        Rental rental = rentCarUseCase.execute(mapper.toRental(rentalRequest));
+    public RentalResponse createRental(@RequestBody RentalRequest rentalRequest, @AuthenticationPrincipal CustomerEntity customerEntity) {
+        Rental rental = rentCarUseCase.execute(mapper.toRental(rentalRequest, customerEntity.getId()));
         return mapper.toResponse(rental);
     }
 
@@ -41,9 +43,9 @@ public class RentalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(rental));
     }
 
-    @GetMapping("{id}/all")
-    public ResponseEntity<List<RentalResponse>> allRentals(@PathVariable Long id) {
-        List<RentalResponse> response = findRentByCustomerUseCase.execute(id).stream()
+    @GetMapping("me/all")
+    public ResponseEntity<List<RentalResponse>> allRentals(@AuthenticationPrincipal CustomerEntity customer) {
+        List<RentalResponse> response = findRentByCustomerUseCase.execute(customer.getId()).stream()
                 .map(mapper::toResponse)
                 .toList();
         return ResponseEntity.status(HttpStatus.OK).body(response);

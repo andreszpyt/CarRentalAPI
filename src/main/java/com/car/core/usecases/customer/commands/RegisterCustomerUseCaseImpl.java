@@ -33,7 +33,8 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
                 costumer.cpf(),
                 costumer.phoneNumber(),
                 costumer.driverLicense(),
-                costumer.birthDate()
+                costumer.birthDate(),
+                "USER"
         );
 
 

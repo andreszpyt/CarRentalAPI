@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 public record RentalRequest(
         Long carId,
-        Long customerId,
         LocalDateTime pickupDate,
         LocalDateTime expectedReturnDate) {
 }

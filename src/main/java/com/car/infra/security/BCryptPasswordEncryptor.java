@@ -11,4 +11,9 @@ public class BCryptPasswordEncryptor implements PasswordEncryptor {
     public String encrypt(String password) {
         return encoder.encode(password);
     }
+
+    @Override
+    public boolean checkPassword(String password, String encryptedPassword) {
+        return encoder.matches(password, encryptedPassword);
+    }
 }

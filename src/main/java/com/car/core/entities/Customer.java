@@ -14,6 +14,6 @@ public record Customer(
         Cpf cpf,
         PhoneNumber phoneNumber,
         String driverLicense,
-        LocalDate birthDate
-) {
+        LocalDate birthDate,
+        String role) {
 }

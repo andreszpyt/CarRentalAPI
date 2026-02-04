@@ -27,11 +27,11 @@ public class CustomerEntity implements UserDetails {
     private String phoneNumber;
     private String driverLicense;
     private LocalDate birthDate;
+    private String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Define o nível de acesso. Como você está começando, use um padrão:
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role));
     }
 
     @Override

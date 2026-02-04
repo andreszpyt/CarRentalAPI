@@ -1,5 +1,7 @@
 package com.car.infra.security;
 
+import com.car.infra.security.handlers.CustomAccessDeniedHandler;
+import com.car.infra.security.handlers.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,15 +17,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, SecurityFilter filter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   SecurityFilter filter,
+                                                   CustomAccessDeniedHandler accessDeniedHandler,
+                                                   CustomAuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(HttpMethod.POST, "/user").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                    auth.anyRequest().authenticated(); // Todo o resto exige token!
+                    auth.requestMatchers(HttpMethod.POST, "/user/register").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "user/login").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/car/**").permitAll();
+                    auth.requestMatchers("/car/**").hasRole("ADMIN");
+                    auth.anyRequest().authenticated();
                 })
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

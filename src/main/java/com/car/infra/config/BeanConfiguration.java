@@ -4,8 +4,11 @@ import com.car.core.gateway.CarGateway;
 import com.car.core.gateway.CustomerGateway;
 import com.car.core.gateway.RentalGateway;
 import com.car.core.security.PasswordEncryptor;
+import com.car.core.security.TokenService;
 import com.car.core.usecases.car.commands.*;
 import com.car.core.usecases.car.queries.*;
+import com.car.core.usecases.customer.auth.AuthenticateUserUseCase;
+import com.car.core.usecases.customer.auth.AuthenticateUserUseCaseImpl;
 import com.car.core.usecases.customer.commands.RegisterCustomerUseCase;
 import com.car.core.usecases.customer.commands.RegisterCustomerUseCaseImpl;
 import com.car.core.usecases.rental.commands.RentCarUseCase;
@@ -87,5 +90,10 @@ public class BeanConfiguration {
     @Bean
     public FindCarsByCategoryUseCase findCarsByCategoryUseCase(CarGateway carGateway){
         return new FindCarsByCategoryUseCaseImpl(carGateway);
+    }
+
+    @Bean
+    public AuthenticateUserUseCase authenticateUserUseCase(CustomerGateway customerGateway, PasswordEncryptor passwordEncryptor, TokenService tokenService){
+        return new AuthenticateUserUseCaseImpl(customerGateway, passwordEncryptor, tokenService);
     }
 }

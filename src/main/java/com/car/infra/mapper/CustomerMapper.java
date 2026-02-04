@@ -20,7 +20,8 @@ public class CustomerMapper {
                 new Cpf(request.cpf()),
                 new PhoneNumber(request.phoneNumber()),
                 request.driverLicense(),
-                request.birthDate()
+                request.birthDate(),
+                "USER"
         );
     }
 
