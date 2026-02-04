@@ -39,6 +39,6 @@ public class RentalRepositoryGateway implements RentalGateway {
 
     @Override
     public List<Rental> findRentalByCustomer(Long customerId) {
-        return repository.findByCustomerIdOrderByCreatedAtDesc(customerId);
+        return repository.findByCustomerIdOrderByPickupDateDesc(customerId);
     }
 }
