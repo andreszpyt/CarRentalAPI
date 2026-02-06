@@ -8,6 +8,6 @@ public interface CustomerGateway {
 
     Optional<Customer> findByEmail(String email);
     Optional<Customer> findByCpf(String cpf);
-    Customer registerCostumer(Customer costumer);
+    Customer registerCustomer(Customer customer);
     Optional<Customer> findById(Long id);
 }

@@ -1,7 +1,9 @@
 package com.car.infra.gateway;
 
 import com.car.core.entities.Car;
+import com.car.core.entities.enums.Category;
 import com.car.core.gateway.CarGateway;
+import com.car.core.usecases.exception.BusinessRuleException;
 import com.car.infra.mapper.CarEntityMapper;
 import com.car.infra.persistence.CarEntity;
 import com.car.infra.persistence.CarRepository;
@@ -66,7 +68,12 @@ public class CarRepositoryGateway implements CarGateway {
 
     @Override
     public List<Car> findCarByCategory(String category) {
-        return carRepository.findByCategory(category)
-                .stream().map(entity -> mapper.toResponse(entity)).toList();
+        try{
+            Category categoryEnum = Category.valueOf(category.toUpperCase());
+            return carRepository.findByCategory(categoryEnum)
+                    .stream().map(mapper::toResponse).toList();
+        } catch (IllegalArgumentException e){
+        throw new BusinessRuleException(("Invalid category provided"));
     }
-}
+        }
+    }

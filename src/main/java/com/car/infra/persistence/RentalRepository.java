@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RentalRepository extends JpaRepository<RentalEntity, Long> {
 
-    List<Rental> findByCustomerIdOrderByPickupDateDesc(Long customerId);
+    List<RentalEntity> findByCustomerIdOrderByPickupDateDesc(Long customerId);
 
     @Query("SELECT COUNT(r) > 0 FROM RentalEntity r " +
             "WHERE r.carId = :carId " +

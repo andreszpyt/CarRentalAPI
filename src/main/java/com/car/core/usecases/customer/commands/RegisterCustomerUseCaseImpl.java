@@ -38,6 +38,6 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
         );
 
 
-        return customerGateway.registerCostumer(secureCostumer);
+        return customerGateway.registerCustomer(secureCostumer);
     }
 }

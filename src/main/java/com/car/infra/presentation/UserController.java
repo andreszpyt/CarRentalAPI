@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user/register")
+@RequestMapping("/user")
 public class UserController {
 
     private final CustomerMapper mapper;
@@ -29,7 +29,7 @@ public class UserController {
         this.authenticateUserUseCase = authenticateUserUseCase;
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CustomerRequest request) {
         Customer customer = registerCostumerUseCase.execute(mapper.toCustomer(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(customer));
