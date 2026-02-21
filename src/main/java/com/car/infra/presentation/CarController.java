@@ -94,7 +94,7 @@ public class CarController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "201",
                     description = "List of cars successfully retrieved",
                     content = @Content(schema = @Schema(implementation = CarResponse.class))
             ),
@@ -105,7 +105,7 @@ public class CarController {
     })
     public ResponseEntity<List<CarResponse>> findAllCars() {
         List<Car> cars = findCarsUseCase.execute();
-        return ResponseEntity.status(HttpStatus.FOUND).body(cars.stream()
+        return ResponseEntity.status(HttpStatus.OK).body(cars.stream()
                 .map(carMapper::toResponse)
                 .toList());
     }
