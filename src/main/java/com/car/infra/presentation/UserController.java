@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,6 +69,7 @@ public class UserController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CustomerRequest request) {
         Customer customer = registerCostumerUseCase.execute(mapper.toCustomer(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(customer));
@@ -80,7 +82,7 @@ public class UserController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "202",
+                    responseCode = "200",
                     description = "Authentication successful - JWT token generated",
                     content = @Content(schema = @Schema(implementation = UserAuthenticated.class))
             ),
@@ -97,7 +99,8 @@ public class UserController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<UserAuthenticated> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(authenticateUserUseCase.execute(loginRequest));
+        return ResponseEntity.status(HttpStatus.OK).body(authenticateUserUseCase.execute(loginRequest));
     }
 }

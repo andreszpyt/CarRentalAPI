@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * REST Controller for managing car inventory in the rental system.
- *
+ * REST Controller for managing car inventory in the rental system.*
  * This controller handles all car-related operations including creation, retrieval,
  * updating, and deletion of cars, as well as searching cars by various criteria.
  *
@@ -82,6 +82,7 @@ public class CarController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<CarResponse> createCar(@RequestBody CarRequest carRequest) {
         Car car = carMapper.toDomain(carRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(carMapper.toResponse(registerCarUseCase.execute(car)));
@@ -94,7 +95,7 @@ public class CarController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "201",
+                    responseCode = "200",
                     description = "List of cars successfully retrieved",
                     content = @Content(schema = @Schema(implementation = CarResponse.class))
             ),
@@ -103,6 +104,7 @@ public class CarController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<List<CarResponse>> findAllCars() {
         List<Car> cars = findCarsUseCase.execute();
         return ResponseEntity.status(HttpStatus.OK).body(cars.stream()
@@ -130,6 +132,7 @@ public class CarController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<CarResponse> findCarByPlate(
             @PathVariable
             @Parameter(description = "The license plate number of the car to retrieve (e.g., ABC-1234)")
@@ -146,7 +149,7 @@ public class CarController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "201",
+                    responseCode = "200",
                     description = "Car successfully updated",
                     content = @Content(schema = @Schema(implementation = CarResponse.class))
             ),
@@ -163,13 +166,14 @@ public class CarController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<CarResponse> updateCar(
             @PathVariable
             @Parameter(description = "The unique identifier of the car to update")
             Long id,
             @RequestBody CarRequest carRequest) {
         Car response =  updateCarUseCase.execute(id, carMapper.toDomain(carRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).body(carMapper.toResponse(response));
+        return ResponseEntity.status(HttpStatus.OK).body(carMapper.toResponse(response));
     }
 
     @GetMapping("{id}")
@@ -192,6 +196,7 @@ public class CarController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<CarResponse> findCarById(
             @PathVariable
             @Parameter(description = "The unique identifier of the car to retrieve")
@@ -219,6 +224,7 @@ public class CarController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<Void> deleteCar(
             @PathVariable
             @Parameter(description = "The unique identifier of the car to delete")
@@ -234,7 +240,7 @@ public class CarController {
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "302",
+                    responseCode = "200",
                     description = "List of cars in the specified category successfully retrieved",
                     content = @Content(schema = @Schema(implementation = CarResponse.class))
             ),
@@ -247,11 +253,12 @@ public class CarController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<List<CarResponse>> findCarsByCategory(
             @PathVariable
             @Parameter(description = "The car category to search for (e.g., SEDAN, SUV, HATCHBACK, TRUCK)")
             String category) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(findCarsByCategoryUseCase.execute(category).stream()
+        return ResponseEntity.status(HttpStatus.OK).body(findCarsByCategoryUseCase.execute(category).stream()
                 .map(carMapper::toResponse)
                 .toList());
     }

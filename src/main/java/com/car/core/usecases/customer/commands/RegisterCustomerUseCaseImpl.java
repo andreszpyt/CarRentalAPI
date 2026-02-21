@@ -18,14 +18,14 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
     public Customer execute(Customer costumer) {
 
         customerGateway.findByCpf(costumer.cpf().value())
-                .ifPresent(costumerEntity -> {throw new ConflictException("CPF already exists");});
+                .ifPresent(customerEntity -> {throw new ConflictException("CPF already exists");});
 
         customerGateway.findByEmail(costumer.email().address())
-                .ifPresent(costumerEntity -> {throw new ConflictException("Email already exists");});
+                .ifPresent(customerEntity -> {throw new ConflictException("Email already exists");});
 
         String hashedPassword = passwordEncryptor.encrypt(costumer.password());
 
-        Customer secureCostumer = new Customer(
+        Customer secureCustomer = new Customer(
                 null,
                 costumer.name(),
                 costumer.email(),
@@ -38,6 +38,6 @@ public class RegisterCustomerUseCaseImpl implements RegisterCustomerUseCase {
         );
 
 
-        return customerGateway.registerCustomer(secureCostumer);
+        return customerGateway.registerCustomer(secureCustomer);
     }
 }

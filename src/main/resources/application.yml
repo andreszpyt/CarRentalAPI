@@ -23,3 +23,7 @@ spring:
 
 server:
   port: ${PORT:8080}
+
+carrental:
+  penalty:
+    amount: 400.00

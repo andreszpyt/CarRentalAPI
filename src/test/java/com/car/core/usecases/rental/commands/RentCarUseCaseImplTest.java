@@ -26,8 +26,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class RentCarUseCaseImplTest {
@@ -75,7 +74,7 @@ public class RentCarUseCaseImplTest {
 
         Mockito.when(carGateway.findById(carId)).thenReturn(Optional.empty());
 
-        RuntimeException exception = org.junit.jupiter.api.Assertions.assertThrows(NotFoundException.class, () -> rentCarUseCase.execute(rentalRequest));
+        RuntimeException exception = assertThrows(NotFoundException.class, () -> rentCarUseCase.execute(rentalRequest));
         assertEquals("Car not found", exception.getMessage());
     }
 
@@ -92,7 +91,7 @@ public class RentCarUseCaseImplTest {
         Mockito.when(carGateway.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(customerGateway.findById(customerId)).thenReturn(Optional.empty());
 
-        RuntimeException exception = org.junit.jupiter.api.Assertions.assertThrows(NotFoundException.class, () -> rentCarUseCase.execute(rentalRequest));
+        RuntimeException exception = assertThrows(NotFoundException.class, () -> rentCarUseCase.execute(rentalRequest));
         assertEquals("Customer not exists!", exception.getMessage());
     }
 
@@ -104,14 +103,14 @@ public class RentCarUseCaseImplTest {
         LocalDateTime expectedReturn = pickup.plusDays(5);
 
         Car car = new Car(carId, "Toyota", "Corolla", Category.SEDAN, CarClass.ECONOMY, "ABC-1234", 2024, "Silver", BigDecimal.valueOf(100.0), true);
-        Customer customer = new Customer(customerId, "John Doe", new Email("john@test.com"), "pass", new Cpf("12345678900"), new PhoneNumber("11999999999"), "12345", LocalDate.of(1990, 1, 1), "USER");
+        Customer customer = new Customer(customerId, "John Doe", new Email("john@test.com"), "pass", new Cpf("08442524096"), new PhoneNumber("11999999999"), "12345", LocalDate.of(1990, 1, 1), "USER");
         Rental rentalRequest = new Rental(null, carId, customerId, pickup, expectedReturn, null, null, null);
 
         Mockito.when(carGateway.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(customerGateway.findById(customerId)).thenReturn(Optional.of(customer));
         Mockito.when(rentalGateway.hasConflictingRental(carId, pickup, expectedReturn)).thenReturn(true);
 
-        BusinessRuleException exception = org.junit.jupiter.api.Assertions.assertThrows(BusinessRuleException.class, () -> rentCarUseCase.execute(rentalRequest));
+        BusinessRuleException exception = assertThrows(BusinessRuleException.class, () -> rentCarUseCase.execute(rentalRequest));
         assertEquals("Car already has rental", exception.getMessage());
         Mockito.verify(rentalGateway, Mockito.never()).createRental(Mockito.any(Rental.class));
     }
@@ -123,14 +122,14 @@ public class RentCarUseCaseImplTest {
         LocalDateTime pickup = LocalDateTime.now().plusDays(1);
 
         Car car = new Car(carId, "Toyota", "Corolla", Category.SEDAN, CarClass.ECONOMY, "ABC-1234", 2024, "Silver", BigDecimal.valueOf(100.0), true);
-        Customer customer = new Customer(customerId, "John Doe", new Email("john@test.com"), "pass", new Cpf("12345678900"), new PhoneNumber("11999999999"), "12345", LocalDate.of(1990, 1, 1), "USER");
+        Customer customer = new Customer(customerId, "John Doe", new Email("john@test.com"), "pass", new Cpf("08442524096"), new PhoneNumber("11999999999"), "12345", LocalDate.of(1990, 1, 1), "USER");
         Rental rentalRequest = new Rental(null, carId, customerId, pickup, pickup, null, null, null);
 
         Mockito.when(carGateway.findById(carId)).thenReturn(Optional.of(car));
         Mockito.when(customerGateway.findById(customerId)).thenReturn(Optional.of(customer));
         Mockito.when(rentalGateway.hasConflictingRental(carId, pickup, pickup)).thenReturn(false);
 
-        BusinessRuleException exception = org.junit.jupiter.api.Assertions.assertThrows(BusinessRuleException.class, () -> rentCarUseCase.execute(rentalRequest));
+        BusinessRuleException exception = assertThrows(BusinessRuleException.class, () -> rentCarUseCase.execute(rentalRequest));
         assertEquals("Days must be greater than 0", exception.getMessage());
         Mockito.verify(rentalGateway, Mockito.never()).createRental(Mockito.any(Rental.class));
     }

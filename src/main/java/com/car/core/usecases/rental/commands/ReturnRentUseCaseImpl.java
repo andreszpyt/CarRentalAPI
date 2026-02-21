@@ -5,19 +5,23 @@ import com.car.core.entities.enums.RentalStatus;
 import com.car.core.gateway.RentalGateway;
 import com.car.core.usecases.exception.BusinessRuleException;
 import com.car.core.usecases.exception.NotFoundException;
+import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class ReturnRentUseCaseImpl implements ReturnRentUseCase {
     private final RentalGateway rentalGateway;
+    private final BigDecimal penaltyAmountPerDay;
 
-    public ReturnRentUseCaseImpl(RentalGateway rentalGateway) {
+    public ReturnRentUseCaseImpl(RentalGateway rentalGateway, BigDecimal penaltyAmountPerDay) {
         this.rentalGateway = rentalGateway;
+        this.penaltyAmountPerDay = penaltyAmountPerDay;
     }
 
     @Override
     public Rental execute(Long rentalId) {
+
         Rental rental = rentalGateway.findRentalById(rentalId)
                 .orElseThrow(() -> new NotFoundException("Rental not found!"));
 
@@ -29,7 +33,7 @@ public class ReturnRentUseCaseImpl implements ReturnRentUseCase {
         long daysLate = java.time.Duration.between(rental.expectedReturnDate(), now).toDays();
 
         long penaltyDays = Math.max(0, daysLate);
-        BigDecimal penaltyValue = BigDecimal.valueOf(penaltyDays * 400);
+        BigDecimal penaltyValue = penaltyAmountPerDay.multiply(BigDecimal.valueOf(penaltyDays));
 
         Rental updateRent = new Rental(
                 rental.id(),
@@ -39,7 +43,7 @@ public class ReturnRentUseCaseImpl implements ReturnRentUseCase {
                 rental.expectedReturnDate(),
                 now,
                 rental.totalValue().add(penaltyValue),
-                rental.rentalStatus()
+                RentalStatus.FINISHED
         );
 
         return rentalGateway.createRental(updateRent);

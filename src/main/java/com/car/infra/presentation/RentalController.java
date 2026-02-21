@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -81,6 +82,7 @@ public class RentalController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public RentalResponse createRental(
             @RequestBody RentalRequest rentalRequest,
             @AuthenticationPrincipal CustomerEntity customerEntity) {
@@ -113,6 +115,7 @@ public class RentalController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<RentalResponse> returnRental(
             @PathVariable
             @Parameter(description = "The unique identifier of the rental to return")
@@ -146,6 +149,7 @@ public class RentalController {
                     description = "Internal server error"
             )
     })
+    @Transactional
     public ResponseEntity<List<RentalResponse>> allRentals(
             @AuthenticationPrincipal CustomerEntity customer) {
         List<RentalResponse> response = findRentByCustomerUseCase.execute(customer.getId()).stream()

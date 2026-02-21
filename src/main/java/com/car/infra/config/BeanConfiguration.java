@@ -20,12 +20,17 @@ import com.car.core.usecases.rental.queries.FindRentByCustomerUseCaseImpl;
 import com.car.core.usecases.rental.queries.FindRentByIdUseCase;
 import com.car.core.usecases.rental.queries.FindRentByIdUseCaseImpl;
 import com.car.infra.security.BCryptPasswordEncryptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.math.BigDecimal;
 
 @Configuration
 public class BeanConfiguration {
 
+    @Value("${carrental.penalty.amount:400}")
+    private BigDecimal penaltyAmount;
 
     @Bean
     public RegisterCarUseCaseImpl registerCarUseCase(CarGateway carGateway){
@@ -79,7 +84,8 @@ public class BeanConfiguration {
 
     @Bean
     public ReturnRentUseCase returnRentUseCase(RentalGateway rentalGateway){
-        return new ReturnRentUseCaseImpl(rentalGateway);
+        // Passa o valor para o Use Case no momento da criação
+        return new ReturnRentUseCaseImpl(rentalGateway, penaltyAmount);
     }
 
     @Bean
